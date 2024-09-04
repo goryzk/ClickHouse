@@ -1,0 +1,24 @@
+Create TABLE queue (
+message character varying
+) ENGINE = RabbitMQ SETTINGS rabbitmq_routing_key_list = 'format=logs,type=report,year=2020',
+      rabbitmq_host_port = 'rabbitmq:5672',
+       rabbitmq_username = 'username',
+        rabbitmq_password = 'password',
+         rabbitmq_exchange_name = 'exchange',
+          rabbitmq_format = 'LineAsString',
+         rabbitmq_exchange_type = 'direct',
+           rabbitmq_num_consumers = 1,
+            rabbitmq_queue_base = 'clickhouse';
+
+SET stream_like_engine_allow_direct_select = 1
+select * from queue
+
+  CREATE TABLE daily (message character varying)
+    ENGINE = MergeTree() ORDER BY message;
+
+  CREATE MATERIALIZED VIEW consumer TO daily
+    AS SELECT message FROM queue;
+
+  SELECT message FROM daily ORDER BY message;
+
+select * from consumer

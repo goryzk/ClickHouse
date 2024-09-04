@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickHousePubisher", "ClickHousePubisher\ClickHousePubisher.csproj", "{0BAED1E0-43C7-4EAC-93CA-03B16FABEB11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0BAED1E0-43C7-4EAC-93CA-03B16FABEB11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BAED1E0-43C7-4EAC-93CA-03B16FABEB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BAED1E0-43C7-4EAC-93CA-03B16FABEB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BAED1E0-43C7-4EAC-93CA-03B16FABEB11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
