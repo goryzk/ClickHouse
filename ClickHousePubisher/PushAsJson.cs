@@ -31,16 +31,19 @@ public class PushAsJson
 
         channel.QueueBind(queue: queue, exchange: exchangeName, routingKey: routingKey);
 
-        var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new
+        for (int i = 0; i < 10000000; i++)
         {
-            key = 9,
-            value = 98
-        }));
+            var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new
+            {
+                key = Random.Shared.Next(0, 1800),
+                value = Random.Shared.Next(0, 1800),
+            }));
 
-        channel.BasicPublish(exchange: exchangeName,
-            routingKey: routingKey,
-            basicProperties: null,
-            body: body);
+            channel.BasicPublish(exchange: exchangeName,
+                routingKey: routingKey,
+                basicProperties: null,
+                body: body);
+        }
 
         Console.WriteLine(" [x] Sent message with routing key '{0}'", routingKey);
     }

@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickHousePubisher", "ClickHousePubisher\ClickHousePubisher.csproj", "{0BAED1E0-43C7-4EAC-93CA-03B16FABEB11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickHouseReporting", "ClickHouseReporting\ClickHouseReporting.csproj", "{3CE8120F-D2F3-4C4C-973C-48BAD6373BEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{0BAED1E0-43C7-4EAC-93CA-03B16FABEB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BAED1E0-43C7-4EAC-93CA-03B16FABEB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BAED1E0-43C7-4EAC-93CA-03B16FABEB11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CE8120F-D2F3-4C4C-973C-48BAD6373BEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CE8120F-D2F3-4C4C-973C-48BAD6373BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CE8120F-D2F3-4C4C-973C-48BAD6373BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CE8120F-D2F3-4C4C-973C-48BAD6373BEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

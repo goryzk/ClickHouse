@@ -1,24 +1,106 @@
-Create TABLE queue (
-message character varying
-) ENGINE = RabbitMQ SETTINGS rabbitmq_routing_key_list = 'format=logs,type=report,year=2020',
-      rabbitmq_host_port = 'rabbitmq:5672',
-       rabbitmq_username = 'username',
-        rabbitmq_password = 'password',
-         rabbitmq_exchange_name = 'exchange',
-          rabbitmq_format = 'LineAsString',
-         rabbitmq_exchange_type = 'direct',
-           rabbitmq_num_consumers = 1,
-            rabbitmq_queue_base = 'clickhouse';
+create table transactionreporting_queue
+(
+    paymentsystemtransactionid character varying,
+    merchanttransactionid      character varying,
+    creationdate               DateTime,
+    lastupdatedate             DateTime,
+    operationtype              integer,
+    state                      integer,
+    amount                     Decimal(18, 2),
+    currency                   integer,
+    paymentmethodid            integer,
+    siteid                     integer,
+    paymentsystemid            integer,
+    initamount                 Decimal(18, 2)
+)
+    ENGINE = RabbitMQ SETTINGS
+                            rabbitmq_host_port = 'rabbitmq:5672',
+                            rabbitmq_username = 'username',
+                            rabbitmq_password = 'password',
+                            rabbitmq_exchange_name = 'exchange_reporting',
+                            rabbitmq_exchange_type = 'direct',
+                            rabbitmq_routing_key_list = 'reporting',
+                            rabbitmq_format = 'JSONEachRow',
+                            rabbitmq_queue_base = 'reporting',
+                            rabbitmq_num_consumers = 1,
+                            rabbitmq_max_block_size  = 1000,
+                            rabbitmq_flush_interval_ms = 5000;
 
-SET stream_like_engine_allow_direct_select = 1
-select * from queue
+create table transactionreporting
+(
+    paymentsystemtransactionid character varying,
+    merchanttransactionid      character varying,
+    creationdate               DateTime,
+    lastupdatedate             DateTime,
+    operationtype              integer,
+    state                      integer,
+    amount                     Decimal(18, 2),
+    currency                   integer,
+    paymentmethodid            integer,
+    siteid                     integer,
+    paymentsystemid            integer,
+    initamount                 Decimal(18, 2)
+)
+    engine = MergeTree ORDER BY paymentsystemid;
 
-  CREATE TABLE daily (message character varying)
-    ENGINE = MergeTree() ORDER BY message;
+CREATE MATERIALIZED VIEW transactonreportingconsumer TO transactionreporting
+    AS SELECT merchanttransactionid, creationdate, lastupdatedate,
+        paymentsystemtransactionid,operationtype,
+        state,amount,currency,paymentmethodid,
+        siteid,paymentsystemid,initamount
+       FROM transactionreporting_queue;
 
-  CREATE MATERIALIZED VIEW consumer TO daily
-    AS SELECT message FROM queue;
+select * from transactonreportingconsumer
+create table transactionreporting_queue
+(
+    paymentsystemtransactionid character varying,
+    merchanttransactionid      character varying,
+    creationdate               DateTime,
+    lastupdatedate             DateTime,
+    operationtype              integer,
+    state                      integer,
+    amount                     Decimal(18, 2),
+    currency                   integer,
+    paymentmethodid            integer,
+    siteid                     integer,
+    paymentsystemid            integer,
+    initamount                 Decimal(18, 2)
+)
+    ENGINE = RabbitMQ SETTINGS
+                            rabbitmq_host_port = 'rabbitmq:5672',
+                            rabbitmq_username = 'username',
+                            rabbitmq_password = 'password',
+                            rabbitmq_exchange_name = 'exchange_reporting',
+                            rabbitmq_exchange_type = 'direct',
+                            rabbitmq_routing_key_list = 'reporting',
+                            rabbitmq_format = 'JSONEachRow',
+                            rabbitmq_queue_base = 'reporting',
+                            rabbitmq_num_consumers = 1,
+                            rabbitmq_max_block_size  = 1000,
+                            rabbitmq_flush_interval_ms = 5000;
 
-  SELECT message FROM daily ORDER BY message;
+create table transactionreporting
+(
+    paymentsystemtransactionid character varying,
+    merchanttransactionid      character varying,
+    creationdate               DateTime,
+    lastupdatedate             DateTime,
+    operationtype              integer,
+    state                      integer,
+    amount                     Decimal(18, 2),
+    currency                   integer,
+    paymentmethodid            integer,
+    siteid                     integer,
+    paymentsystemid            integer,
+    initamount                 Decimal(18, 2)
+)
+    engine = MergeTree ORDER BY paymentsystemid;
 
-select * from consumer
+CREATE MATERIALIZED VIEW transactonreportingconsumer TO transactionreporting
+    AS SELECT merchanttransactionid, creationdate, lastupdatedate,
+        paymentsystemtransactionid,operationtype,
+        state,amount,currency,paymentmethodid,
+        siteid,paymentsystemid,initamount
+       FROM transactionreporting_queue;
+
+select * from transactonreportingconsumer

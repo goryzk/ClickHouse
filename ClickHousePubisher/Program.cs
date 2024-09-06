@@ -1,5 +1,5 @@
 ﻿using ClickHousePubisher;
 
-PushAsJson pushAsJson = new PushAsJson();
+TransactionReportingPublisher pushAsJson = new TransactionReportingPublisher();
 pushAsJson.Push();
 Console.ReadKey();
